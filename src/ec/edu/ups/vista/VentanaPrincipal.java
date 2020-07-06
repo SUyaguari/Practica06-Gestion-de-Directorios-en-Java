@@ -131,10 +131,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        lstDirectorios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstDirectoriosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(lstDirectorios);
 
         btnMostrarInformacion.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         btnMostrarInformacion.setText("Mostrar Informacion");
+        btnMostrarInformacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarInformacionActionPerformed(evt);
+            }
+        });
 
         txtAreaInformacion.setColumns(20);
         txtAreaInformacion.setRows(5);
@@ -373,6 +383,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void btnMostrarInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarInformacionActionPerformed
+        if(!lstDirectorios.isSelectionEmpty()){
+            String nombre = lstDirectorios.getSelectedValue();
+            ruta = txtRuta.getText();
+            
+            String texto = controladorDirectoriio.mostrarInformacion(ruta, nombre);
+            
+            txtAreaInformacion.setText(texto);
+        }
+    }//GEN-LAST:event_btnMostrarInformacionActionPerformed
+
+    private void lstDirectoriosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstDirectoriosMouseClicked
+        if(!lstDirectorios.isSelectionEmpty()){
+            txtAreaInformacion.setText("");
+        }
+    }//GEN-LAST:event_lstDirectoriosMouseClicked
 
     
     public static void main(String args[]) {

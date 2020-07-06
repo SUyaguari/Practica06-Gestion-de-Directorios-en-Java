@@ -171,7 +171,41 @@ public class ControladorDirectoriio {
 
     }
     
-    public void mostrarInformacion(){
-        
+    public String mostrarInformacion(String ruta, String buscar){
+        try {
+            archivo = new File(ruta);
+            archivos = archivo.listFiles();
+            String texto="Informacion: \n";
+            for (File archivo1 : archivos) {
+                if(archivo1.getName().equals(buscar)){
+                    texto = texto+"Direccion: "+archivo1.getAbsolutePath()+"\n";
+                    texto = texto+"Nombre: "+archivo1.getName()+"\n";
+                    long bytes = archivo1.length();
+                    bytes = (bytes) / (1024);
+                    texto = texto+"Peso: "+bytes+" kb \n";
+                    if (archivo1.canRead()) {
+                        texto = texto+"Permiso de Lectura: Si \n";
+                    }else {
+                        texto = texto + "Permiso de Lectura: No\n";
+                    }
+                    
+                    if(archivo1.canWrite()){
+                        texto = texto+ "Permiso de Escritura: Si \n";
+                    }else{
+                        texto = texto+ "Permiso de Escritura: No \n";
+                    }
+                    
+                    if(!archivo1.isHidden()){
+                        texto = texto+ "Visibilidad: Visible \n";
+                    }else{
+                        texto = texto+ "Visibilidad: Oculto \n";
+                    }
+            
+                }
+            }
+            return texto;
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 }
