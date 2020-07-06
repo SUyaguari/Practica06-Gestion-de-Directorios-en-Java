@@ -18,7 +18,7 @@ public class ControladorDirectoriio {
         this.ruta = ruta;
     }
     
-    public List<String> listarArchivos(){
+    public List<String> listarArchivos(String ruta){
         archivo = new File(ruta);
         archivos = archivo.listFiles();
         
@@ -38,66 +38,80 @@ public class ControladorDirectoriio {
         }
     }
     
-    public  List<String> listarDirectorios(){
-        archivo = new File(ruta);
-        archivos = archivo.listFiles();
-        
-        List<String> listaDirectorios = new ArrayList<>();
-        
-        for (File directorio : archivos) {
-            if(!directorio.isHidden() && directorio.isDirectory()){
-                listaDirectorios.add(directorio.getName());
+    public  List<String> listarDirectorios(String ruta){
+        try {
+            archivo = new File(ruta);
+            archivos = archivo.listFiles();
+
+            List<String> listaDirectorios = new ArrayList<>();
+
+            for (File directorio : archivos) {
+                if (!directorio.isHidden() && directorio.isDirectory()) {
+                    listaDirectorios.add(directorio.getName());
+                }
             }
-        }
-        
-        if(!listaDirectorios.isEmpty()){
-            
-            return listaDirectorios;
-            
-        }else{
-            return null;
-        }        
-    }
-    
-    public List<String> listarArchivosOcultos(){
-        
-        archivo = new File(ruta);
-        archivos = archivo.listFiles();
-        
-        List<String> listaArchivosOcultos = new ArrayList<>();
-        
-        for (File archivo : archivos) {
-            if(archivo.isHidden() && archivo.isFile()){
-                listaArchivosOcultos.add(archivo.getName());
+
+            if (!listaDirectorios.isEmpty()) {
+
+                return listaDirectorios;
+
+            } else {
+                return null;
             }
-        }
-        
-        if(!listaArchivosOcultos.isEmpty()){
+        } catch (NullPointerException e) {
             
-            return listaArchivosOcultos;
-            
-        }else{
             return null;
+        
         }
     }
     
-    public List<String> listarDirectoriosOcultos(){
-        archivo = new File(ruta);
-        archivos = archivo.listFiles();
+    public List<String> listarArchivosOcultos(String ruta){
         
-        List<String> listaDirectoriosOcultos = new ArrayList<>();
-        
-        for (File directorio : archivos) {
-            if(directorio.isHidden() && directorio.isDirectory()){
-                listaDirectoriosOcultos.add(directorio.getName());
+        try {
+            archivo = new File(ruta);
+            archivos = archivo.listFiles();
+
+            List<String> listaArchivosOcultos = new ArrayList<>();
+
+            for (File archivo : archivos) {
+                if(archivo.isHidden() && archivo.isFile()){
+                    listaArchivosOcultos.add(archivo.getName());
+                }
             }
+
+            if(!listaArchivosOcultos.isEmpty()){
+
+                return listaArchivosOcultos;
+
+            }else{
+                return null;
+            }
+        } catch (NullPointerException e) {
+            return null;
         }
-        
-        if(!listaDirectoriosOcultos.isEmpty()){
-            
-            return listaDirectoriosOcultos;
-            
-        }else{
+    }
+    
+    public List<String> listarDirectoriosOcultos(String ruta){
+        try {
+            archivo = new File(ruta);
+            archivos = archivo.listFiles();
+
+            List<String> listaDirectoriosOcultos = new ArrayList<>();
+
+            for (File directorio : archivos) {
+                if(directorio.isHidden() && directorio.isDirectory()){
+                    listaDirectoriosOcultos.add(directorio.getName());
+                }
+            }
+
+            if(!listaDirectoriosOcultos.isEmpty()){
+
+                return listaDirectoriosOcultos;
+
+            }else{
+                return null;
+            }
+        } catch (NullPointerException e) {
             return null;
         }
     }

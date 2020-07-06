@@ -5,18 +5,27 @@
  */
 package ec.edu.ups.vista;
 
+import ec.edu.ups.controlador.ControladorDirectoriio;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Estudiantes
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VentanaPrincipal
-     */
+    ControladorDirectoriio controladorDirectoriio;
+    
+    String ruta;
+    
     public VentanaPrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        controladorDirectoriio = new ControladorDirectoriio(ruta);
+        
     }
 
     /**
@@ -61,12 +70,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         btnListarDirectorios.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         btnListarDirectorios.setText("Listar Directorios");
+        btnListarDirectorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarDirectoriosActionPerformed(evt);
+            }
+        });
 
         btnListarArchivosOcultos.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         btnListarArchivosOcultos.setText("Listar Archivos Ocultos ");
+        btnListarArchivosOcultos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarArchivosOcultosActionPerformed(evt);
+            }
+        });
 
         btnListarDirectoriosOcultos.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         btnListarDirectoriosOcultos.setText("Listar Directorios Ocultos");
+        btnListarDirectoriosOcultos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarDirectoriosOcultosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -154,6 +178,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         gestionarMenu.add(jMenuItem2);
 
         jMenuItem3.setText("Salir");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         gestionarMenu.add(jMenuItem3);
 
         jMenuBar1.add(gestionarMenu);
@@ -203,9 +232,64 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void btnListarDirectoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarDirectoriosActionPerformed
+        ruta = txtRuta.getText();
+        
+        if(ruta.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Ingrese una ruta");
+        }else{
+            List<String> lista = controladorDirectoriio.listarDirectorios(ruta);
+            
+            if(lista!=null){
+                limpiarLista();
+                ingresarDatosLista(lista);
+            }else{
+                limpiarLista();
+                JOptionPane.showMessageDialog(this, "La ruta no contiene directorios o ruta incorrecta");
+            }
+        }
+    }//GEN-LAST:event_btnListarDirectoriosActionPerformed
+
+    private void btnListarArchivosOcultosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarArchivosOcultosActionPerformed
+        ruta = txtRuta.getText();
+        
+        if(ruta.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Ingrese una ruta");
+        }else{
+            List<String> lista = controladorDirectoriio.listarArchivosOcultos(ruta);
+            
+            if(lista!=null){
+                limpiarLista();
+                ingresarDatosLista(lista);
+            }else{
+                limpiarLista();
+                JOptionPane.showMessageDialog(this, "La ruta no contiene archivos ocultos o ruta incorrecta");
+            }
+        }
+    }//GEN-LAST:event_btnListarArchivosOcultosActionPerformed
+
+    private void btnListarDirectoriosOcultosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarDirectoriosOcultosActionPerformed
+        ruta = txtRuta.getText();
+        
+        if(ruta.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Ingrese una ruta");
+        }else{
+            
+            List<String> lista = controladorDirectoriio.listarDirectoriosOcultos(ruta);
+            if(lista != null){
+                limpiarLista();
+                ingresarDatosLista(lista);
+            }else{
+                JOptionPane.showMessageDialog(this, "La ruta no coentiene Directorios ocultos o ruta incorrecta");
+            }
+        }
+    }//GEN-LAST:event_btnListarDirectoriosOcultosActionPerformed
+
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -237,7 +321,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void ingresarDatosLista(List<String> lista){
+        DefaultListModel modelo = new DefaultListModel();
+        modelo.clear();
 
+        for (String nombre : lista) {
+            modelo.addElement(nombre);
+        }
+        lstDirectorios.setModel(modelo);
+    }
+    
+    public void limpiarLista() {
+        DefaultListModel modelo = new DefaultListModel();
+        modelo.clear();
+        lstDirectorios.setModel(modelo);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnListarArchivosOcultos;
     private javax.swing.JButton btnListarDirectorios;
